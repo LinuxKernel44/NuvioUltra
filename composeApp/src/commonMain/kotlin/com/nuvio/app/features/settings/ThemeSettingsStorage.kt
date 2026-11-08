@@ -11,6 +11,8 @@ internal expect object ThemeSettingsStorage {
     fun saveAmoledEnabled(enabled: Boolean)
     fun loadLiquidGlassNativeTabBarEnabled(): Boolean?
     fun saveLiquidGlassNativeTabBarEnabled(enabled: Boolean)
+    fun loadLiquidGlassUiLevel(): Int?
+    fun saveLiquidGlassUiLevel(level: Int)
     fun loadSelectedAppLanguage(): String?
     fun saveSelectedAppLanguage(languageCode: String)
     fun applySelectedAppLanguage(languageCode: String)

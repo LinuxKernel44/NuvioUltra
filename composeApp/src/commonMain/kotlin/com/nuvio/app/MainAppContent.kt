@@ -167,6 +167,8 @@ import com.nuvio.app.features.tracking.TrackingMembershipApplyResult
 import com.nuvio.app.features.tracking.TrackingProviderId
 import com.nuvio.app.features.tracking.toggleTrackingLibraryMembership
 import com.nuvio.app.features.updater.AppUpdaterHost
+import com.nuvio.app.core.ui.glass.ProvideLiquidGlass
+import com.nuvio.app.core.ui.glass.liquidGlassSource
 import com.nuvio.app.features.updater.AppUpdaterPlatform
 import com.nuvio.app.features.updater.rememberAppUpdaterController
 import com.nuvio.app.features.watched.WatchedRepository
@@ -1284,6 +1286,7 @@ internal fun MainAppContent(
             selectedContinueWatchingForActions = item
         }
 
+        ProvideLiquidGlass {
         AppUpdaterHost(
             controller = appUpdaterController,
             modifier = Modifier.fillMaxSize(),
@@ -1305,6 +1308,7 @@ internal fun MainAppContent(
                     )
                     .background(MaterialTheme.nuvio.colors.background),
             ) {
+            Box(modifier = Modifier.fillMaxSize().liquidGlassSource()) {
             val verticalBarPadding = LocalVerticalBarPadding.current
             val drawsUnderVerticalBar = currentRoute.drawsUnderVerticalBar(selectedTab)
             SharedTransitionLayout {
@@ -2094,6 +2098,8 @@ internal fun MainAppContent(
                 }
             }
 
+            }
+
             NuvioFloatingPrompt(
                 visible = resumePromptItem != null,
                 imageUrl = resumePromptItem?.poster ?: resumePromptItem?.imageUrl,
@@ -2119,6 +2125,7 @@ internal fun MainAppContent(
             )
 
             }
+        }
         }
 }
 

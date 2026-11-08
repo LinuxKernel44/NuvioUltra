@@ -1,5 +1,7 @@
 package com.nuvio.app.features.party
 
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
@@ -392,7 +394,7 @@ private fun Composer() {
                     modifier = Modifier
                         .heightIn(min = CONTROL_SIZE)
                         .clip(RoundedCornerShape(CONTROL_SIZE / 2))
-                        .background(tokens.colors.surfaceCard)
+                        .liquidGlass(shape = RoundedCornerShape(CONTROL_SIZE / 2), style = GlassStyle.Panel, fallbackColor = tokens.colors.surfaceCard)
                         .padding(horizontal = 16.dp, vertical = 11.dp),
                     contentAlignment = Alignment.CenterStart,
                 ) {
@@ -489,7 +491,7 @@ internal fun PartyTabs(
             .fillMaxWidth()
             .height(40.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(tokens.colors.surfaceCard)
+            .liquidGlass(shape = RoundedCornerShape(12.dp), style = GlassStyle.Panel, fallbackColor = tokens.colors.surfaceCard)
             .padding(3.dp),
     ) {
         val segment = maxWidth / 2

@@ -1,5 +1,7 @@
 package com.nuvio.app.features.streams
 
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -164,7 +166,7 @@ internal fun StreamFileSizeBadge(stream: StreamItem) {
         modifier = Modifier
             .height(StreamBadgeChipSize.STREAM.containerHeight)
             .clip(badgeShape)
-            .background(tokens.colors.surfacePopover)
+            .liquidGlass(shape = badgeShape, style = GlassStyle.Control, fallbackColor = tokens.colors.surfacePopover)
             .border(tokens.borders.thin, tokens.colors.borderSubtle, badgeShape)
             .padding(horizontal = StreamBadgeChipDefaults.fileSizeHorizontalPadding),
         contentAlignment = Alignment.Center,

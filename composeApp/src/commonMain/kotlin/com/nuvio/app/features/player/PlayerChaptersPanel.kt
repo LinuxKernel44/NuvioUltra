@@ -1,5 +1,7 @@
 package com.nuvio.app.features.player
 
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -120,7 +122,7 @@ private fun ChapterRow(
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape)
-            .background(tokens.colors.surfaceCard)
+            .liquidGlass(shape = shape, style = GlassStyle.Panel, fallbackColor = tokens.colors.surfaceCard)
             .then(if (isCurrent) Modifier.border(2.dp, tokens.colors.focusRing, shape) else Modifier)
             .clickable(onClick = onClick)
             .padding(horizontal = 14.dp, vertical = 12.dp),

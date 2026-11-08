@@ -1,5 +1,7 @@
 package com.nuvio.app.core.ui
 
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -56,7 +58,7 @@ fun NuvioDropdownChip(
     Row(
         modifier = modifier
             .clip(tokens.shapes.compactCard)
-            .background(tokens.colors.surface)
+            .liquidGlass(shape = tokens.shapes.compactCard, style = GlassStyle.Control, fallbackColor = tokens.colors.surface)
             .then(
                 if (enabled) {
                     Modifier.clickable { isSheetVisible = true }

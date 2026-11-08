@@ -1,5 +1,9 @@
 package com.nuvio.app.core.ui
 
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.GlassTier
+import com.nuvio.app.core.ui.glass.isLiquidGlassActive
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,12 +47,17 @@ fun Menu(
     DropdownMenu(
         expanded = expanded,
         onDismissRequest = onDismissRequest,
-        modifier = modifier.widthIn(min = MenuMinWidth),
+        modifier = modifier.widthIn(min = MenuMinWidth).liquidGlass(
+            shape = MenuShape,
+            style = GlassStyle.Sheet,
+            tier = GlassTier.Refractive,
+            fallbackColor = Color.Unspecified,
+        ),
         offset = offset,
         shape = MenuShape,
-        containerColor = tokens.colors.surfacePopover,
+        containerColor = if (isLiquidGlassActive()) Color.Transparent else tokens.colors.surfacePopover,
         tonalElevation = tokens.elevation.flat,
-        shadowElevation = tokens.elevation.overlay,
+        shadowElevation = if (isLiquidGlassActive()) 0.dp else tokens.elevation.overlay,
         border = BorderStroke(tokens.borders.thin, SurfaceEdge),
         content = content,
     )

@@ -8,6 +8,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 
@@ -23,10 +25,15 @@ fun Chip(
     Surface(
         selected = selected,
         onClick = onClick,
-        modifier = modifier,
+        modifier = modifier.liquidGlass(
+            shape = RoundedCornerShape(NuvioTokens.Radius.md),
+            style = GlassStyle.Control,
+            fallbackColor = if (selected) tokens.colors.overlaySelected else Color.Unspecified,
+            tint = if (selected) tokens.colors.accent.copy(alpha = 0.35f) else Color.Unspecified,
+        ),
         enabled = enabled,
         shape = RoundedCornerShape(NuvioTokens.Radius.md),
-        color = if (selected) tokens.colors.overlaySelected else Color.Transparent,
+        color = Color.Transparent,
         contentColor = when {
             !enabled -> tokens.colors.textDisabled
             selected -> tokens.colors.textPrimary

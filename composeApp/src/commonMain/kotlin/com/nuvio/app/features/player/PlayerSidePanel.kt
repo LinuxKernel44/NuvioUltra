@@ -1,5 +1,7 @@
 package com.nuvio.app.features.player
 
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -114,7 +116,7 @@ internal fun PlayerSidePanel(
                     .width(resolvedWidth)
                     .fillMaxHeight()
                     .clip(shape)
-                    .background(tokens.colors.surfaceElevated)
+                    .liquidGlass(shape = shape, style = GlassStyle.Panel, fallbackColor = tokens.colors.surfaceElevated)
                     .clickable(
                         interactionSource = panelInteraction,
                         indication = null,
@@ -170,7 +172,7 @@ internal fun PlayerDialogButton(
         modifier = modifier
             .alpha(if (enabled) 1f else tokens.opacity.disabled)
             .clip(RoundedCornerShape(12.dp))
-            .background(tokens.colors.surfaceCard)
+            .liquidGlass(shape = RoundedCornerShape(12.dp), style = GlassStyle.Panel, fallbackColor = tokens.colors.surfaceCard)
             .clickable(enabled = enabled, onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 10.dp),
         contentAlignment = Alignment.Center,

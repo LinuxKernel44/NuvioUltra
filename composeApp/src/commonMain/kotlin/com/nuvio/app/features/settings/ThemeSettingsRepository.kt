@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+const val DEFAULT_LIQUID_GLASS_UI_LEVEL = 70
+
 object ThemeSettingsRepository {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private val _selectedThemePreference = MutableStateFlow<AppTheme?>(null)
@@ -33,6 +35,10 @@ object ThemeSettingsRepository {
 
     private val _liquidGlassNativeTabBarEnabled = MutableStateFlow(false)
     val liquidGlassNativeTabBarEnabled: StateFlow<Boolean> = _liquidGlassNativeTabBarEnabled.asStateFlow()
+
+    /** 0 = off, 1..100 = intensity of the in-app liquid glass (Android/iOS Compose layer). */
+    private val _liquidGlassUiLevel = MutableStateFlow(DEFAULT_LIQUID_GLASS_UI_LEVEL)
+    val liquidGlassUiLevel: StateFlow<Int> = _liquidGlassUiLevel.asStateFlow()
 
     private val _selectedAppLanguage = MutableStateFlow(AppLanguage.DEVICE)
     val selectedAppLanguage: StateFlow<AppLanguage> = _selectedAppLanguage.asStateFlow()
@@ -66,6 +72,7 @@ object ThemeSettingsRepository {
         _liquidGlassNativeTabBarEnabled.value = false
         NativeTabBridge.publishAccentColor(ThemeColors.White.nativeAccentHex)
         NativeTabBridge.publishLiquidGlassEnabled(false)
+        _liquidGlassUiLevel.value = DEFAULT_LIQUID_GLASS_UI_LEVEL
         _selectedAppLanguage.value = AppLanguage.DEVICE
         _navBarGlowEnabled.value = true
         _navBarStyle.value = NavBarStyle.ADAPTIVE
@@ -90,6 +97,7 @@ object ThemeSettingsRepository {
         val liquidGlassEnabled = ThemeSettingsStorage.loadLiquidGlassNativeTabBarEnabled() ?: false
         _liquidGlassNativeTabBarEnabled.value = liquidGlassEnabled
         NativeTabBridge.publishLiquidGlassEnabled(liquidGlassEnabled)
+        _liquidGlassUiLevel.value = (ThemeSettingsStorage.loadLiquidGlassUiLevel() ?: DEFAULT_LIQUID_GLASS_UI_LEVEL).coerceIn(0, 100)
         val appLanguage = AppLanguage.fromCode(ThemeSettingsStorage.loadSelectedAppLanguage())
         ThemeSettingsStorage.applySelectedAppLanguage(appLanguage.code)
         _selectedAppLanguage.value = appLanguage
@@ -131,6 +139,14 @@ object ThemeSettingsRepository {
         _liquidGlassNativeTabBarEnabled.value = enabled
         ThemeSettingsStorage.saveLiquidGlassNativeTabBarEnabled(enabled)
         NativeTabBridge.publishLiquidGlassEnabled(enabled)
+    }
+
+    fun setLiquidGlassUiLevel(level: Int) {
+        ensureLoaded()
+        val clamped = level.coerceIn(0, 100)
+        if (_liquidGlassUiLevel.value == clamped) return
+        _liquidGlassUiLevel.value = clamped
+        ThemeSettingsStorage.saveLiquidGlassUiLevel(clamped)
     }
 
     fun setAppLanguage(language: AppLanguage) {

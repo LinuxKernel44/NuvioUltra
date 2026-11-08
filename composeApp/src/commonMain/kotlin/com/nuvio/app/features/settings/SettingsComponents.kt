@@ -1,5 +1,7 @@
 package com.nuvio.app.features.settings
 
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -77,8 +79,12 @@ private fun SettingsCard(
 ) {
     val tokens = MaterialTheme.nuvio
     Surface(
-        modifier = modifier.fillMaxWidth(),
-        color = tokens.colors.surface,
+        modifier = modifier.fillMaxWidth().liquidGlass(
+            shape = tokens.shapes.card,
+            style = GlassStyle.Panel,
+            fallbackColor = tokens.colors.surface,
+        ),
+        color = Color.Transparent,
         shape = tokens.shapes.card,
         border = BorderStroke(
             tokens.borders.hairline,

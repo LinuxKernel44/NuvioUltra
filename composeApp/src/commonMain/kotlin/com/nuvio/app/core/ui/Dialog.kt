@@ -1,5 +1,10 @@
 package com.nuvio.app.core.ui
 
+import androidx.compose.ui.graphics.Color
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.GlassTier
+import com.nuvio.app.core.ui.glass.isLiquidGlassActive
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -57,9 +62,15 @@ fun DialogSurface(
         Surface(
             modifier = modifier
                 .fillMaxWidth()
-                .widthIn(max = tokens.components.dialogMaxWidth),
+                .widthIn(max = tokens.components.dialogMaxWidth)
+                .liquidGlass(
+                    shape = tokens.shapes.dialog,
+                    style = GlassStyle.Sheet,
+                    tier = GlassTier.Refractive,
+                    fallbackColor = tokens.colors.surfaceDialog,
+                ),
             shape = tokens.shapes.dialog,
-            color = tokens.colors.surfaceDialog,
+            color = Color.Transparent,
             contentColor = tokens.colors.textPrimary,
             border = BorderStroke(tokens.borders.thin, SurfaceEdge),
         ) {

@@ -701,6 +701,10 @@
     <string name="settings_nav_bar_style_compact">Always Compact</string>
     <string name="settings_nav_bar_style_classic">Classic</string>
     <string name="settings_appearance_continue_watching_description">Settings for the Continue Watching section.</string>
+    <string name="settings_liquid_glass_ui_section">Liquid Glass</string>
+    <string name="settings_liquid_glass_ui_title">Liquid Glass everywhere</string>
+    <string name="settings_liquid_glass_ui_description">Glass effect on bars, sheets, dialogs, menus, cards, chips and buttons. Full refraction needs Android 13 or later; Android 12 gets blur, older versions a tinted glass.</string>
+    <string name="settings_liquid_glass_ui_intensity">Glass intensity</string>
     <string name="settings_appearance_liquid_glass">Liquid Glass</string>
     <string name="settings_appearance_liquid_glass_description">Use the native iPhone tab bar on iOS 26 and later.</string>
     <string name="settings_appearance_poster_customization_description">Tune card width and corner radius.</string>

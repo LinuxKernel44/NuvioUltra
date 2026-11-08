@@ -1,5 +1,9 @@
 package com.nuvio.app.core.ui
 
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.GlassTier
+import com.nuvio.app.core.ui.glass.isLiquidGlassActive
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -72,7 +76,12 @@ fun NuvioModalBottomSheet(
                     modifier = modifier
                         .padding(NuvioTokens.Space.s10)
                         .clip(SheetShape)
-                        .background(containerColor)
+                        .liquidGlass(
+                            shape = SheetShape,
+                            style = GlassStyle.Sheet,
+                            tier = GlassTier.Refractive,
+                            fallbackColor = containerColor,
+                        )
                         .border(tokens.borders.thin, SurfaceEdge, SheetShape),
                 ) {
                     if (showDragHandle) {

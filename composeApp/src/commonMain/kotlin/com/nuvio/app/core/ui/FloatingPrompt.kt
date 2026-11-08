@@ -1,5 +1,10 @@
 package com.nuvio.app.core.ui
 
+import androidx.compose.ui.graphics.Color
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.GlassTier
+import com.nuvio.app.core.ui.glass.isLiquidGlassActive
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.MutableTransitionState
@@ -166,11 +171,18 @@ fun NuvioFloatingPrompt(
             contentAlignment = Alignment.BottomCenter,
         ) {
             Surface(
-                modifier = Modifier.onSizeChanged { promptHeightPx = it.height },
+                modifier = Modifier
+                    .onSizeChanged { promptHeightPx = it.height }
+                    .liquidGlass(
+                        shape = tokens.shapes.card,
+                        style = GlassStyle.Bar,
+                        tier = GlassTier.Refractive,
+                        fallbackColor = tokens.colors.surfacePopover,
+                    ),
                 shape = tokens.shapes.card,
-                color = tokens.colors.surfacePopover,
+                color = Color.Transparent,
                 tonalElevation = tokens.elevation.playerControls,
-                shadowElevation = tokens.elevation.modal,
+                shadowElevation = if (isLiquidGlassActive()) 0.dp else tokens.elevation.modal,
             ) {
                 Column(
                     modifier = Modifier.padding(tokens.spacing.cardPaddingCompact),

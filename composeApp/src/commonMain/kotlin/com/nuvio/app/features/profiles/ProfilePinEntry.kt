@@ -1,5 +1,7 @@
 package com.nuvio.app.features.profiles
 
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
@@ -201,7 +203,7 @@ private fun CompactPinKeypad(
                                 modifier = Modifier
                                     .size(tokens.components.avatarSize)
                                     .clip(tokens.shapes.avatar)
-                                    .background(tokens.colors.surfaceCard)
+                                    .liquidGlass(shape = tokens.shapes.avatar, style = GlassStyle.Control, fallbackColor = tokens.colors.surfaceCard)
                                     .clickable(onClick = onBackspace),
                                 contentAlignment = Alignment.Center,
                             ) {
@@ -218,7 +220,7 @@ private fun CompactPinKeypad(
                                 modifier = Modifier
                                     .size(tokens.components.avatarSize)
                                     .clip(tokens.shapes.avatar)
-                                    .background(tokens.colors.surfaceCard)
+                                    .liquidGlass(shape = tokens.shapes.avatar, style = GlassStyle.Control, fallbackColor = tokens.colors.surfaceCard)
                                     .clickable { onDigit(key) },
                                 contentAlignment = Alignment.Center,
                             ) {

@@ -20,6 +20,11 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import androidx.compose.foundation.shape.RoundedCornerShape
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.GlassTier
+import com.nuvio.app.core.ui.glass.LocalLiquidGlass
+import com.nuvio.app.core.ui.glass.liquidGlass
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.hazeEffect
@@ -28,7 +33,17 @@ private val GlassSurfaceColor = Color(0xFF1C1C1E)
 
 @Composable
 internal fun GlassBarSurface(hazeState: HazeState?, modifier: Modifier = Modifier, glowStrength: Float = 1f) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && hazeState?.blurEnabled == true && glowStrength > 0f) {
+    val liquid = LocalLiquidGlass.current
+    if (liquid != null && liquid.active) {
+        Box(
+            modifier.liquidGlass(
+                shape = RoundedCornerShape(50),
+                style = GlassStyle.Bar,
+                tier = GlassTier.Refractive,
+                fallbackColor = GlassSurfaceColor,
+            ),
+        )
+    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && hazeState?.blurEnabled == true && glowStrength > 0f) {
         RefractedGlassBar(hazeState, modifier, glowStrength)
     } else {
         Box(

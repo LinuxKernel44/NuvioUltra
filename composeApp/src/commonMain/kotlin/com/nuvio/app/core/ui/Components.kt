@@ -8,6 +8,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.GlassTier
+import com.nuvio.app.core.ui.glass.isLiquidGlassActive
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -118,8 +122,12 @@ fun NuvioSurfaceCard(
 ) {
     val tokens = MaterialTheme.nuvio
     Surface(
-        modifier = modifier.fillMaxWidth(),
-        color = tokens.colors.surface,
+        modifier = modifier.fillMaxWidth().liquidGlass(
+            shape = tokens.shapes.card,
+            style = GlassStyle.Panel,
+            fallbackColor = tokens.colors.surface,
+        ),
+        color = Color.Transparent,
         shape = tokens.shapes.card,
         tonalElevation = tonalElevation.dp,
         shadowElevation = tokens.elevation.flat,
@@ -256,9 +264,10 @@ fun NuvioIconActionButton(
     val tokens = MaterialTheme.nuvio
     IconButton(
         modifier = modifier
-            .background(
-                color = tokens.colors.background.copy(alpha = 0.001f),
+            .liquidGlass(
                 shape = tokens.shapes.avatar,
+                style = GlassStyle.Control,
+                fallbackColor = tokens.colors.background.copy(alpha = 0.001f),
             ),
         onClick = onClick,
     ) {
@@ -287,7 +296,7 @@ fun NuvioBackButton(
         modifier = modifier
             .size(buttonSize)
             .clip(shape)
-            .background(containerColor)
+            .liquidGlass(shape = shape, style = GlassStyle.Control, fallbackColor = containerColor)
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
@@ -308,17 +317,30 @@ fun NuvioPrimaryButton(
     onClick: () -> Unit = {},
 ) {
     val tokens = MaterialTheme.nuvio
+    val glassActive = isLiquidGlassActive()
     Button(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
-            .height(NuvioTokens.Space.s48 + NuvioTokens.Space.s4),
+            .height(NuvioTokens.Space.s48 + NuvioTokens.Space.s4)
+            .then(
+                if (glassActive) {
+                    Modifier.liquidGlass(
+                        shape = tokens.shapes.button,
+                        style = GlassStyle.Control,
+                        fallbackColor = tokens.colors.accent,
+                        tint = tokens.colors.accent.copy(alpha = if (enabled) 1f else tokens.opacity.disabled),
+                    )
+                } else {
+                    Modifier
+                },
+            ),
         enabled = enabled,
         shape = tokens.shapes.button,
         colors = ButtonDefaults.buttonColors(
-            containerColor = tokens.colors.accent,
+            containerColor = if (glassActive) Color.Transparent else tokens.colors.accent,
             contentColor = tokens.colors.onAccent,
-            disabledContainerColor = tokens.colors.accent.copy(alpha = tokens.opacity.disabled),
+            disabledContainerColor = if (glassActive) Color.Transparent else tokens.colors.accent.copy(alpha = tokens.opacity.disabled),
             disabledContentColor = tokens.colors.onAccent.copy(alpha = tokens.opacity.disabled),
         ),
     ) {
@@ -349,7 +371,7 @@ fun NuvioInputField(
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().liquidGlass(shape = shape, style = GlassStyle.Control, fallbackColor = Color.Unspecified),
         singleLine = true,
         shape = shape,
         placeholder = {
@@ -364,8 +386,8 @@ fun NuvioInputField(
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = tokens.colors.borderFocus,
             unfocusedBorderColor = tokens.colors.borderDefault,
-            focusedContainerColor = tokens.colors.surfaceCard,
-            unfocusedContainerColor = tokens.colors.surfaceCard,
+            focusedContainerColor = if (isLiquidGlassActive()) Color.Transparent else tokens.colors.surfaceCard,
+            unfocusedContainerColor = if (isLiquidGlassActive()) Color.Transparent else tokens.colors.surfaceCard,
             cursorColor = tokens.colors.accent,
         ),
     )
@@ -379,9 +401,10 @@ fun NuvioInfoBadge(
     val tokens = MaterialTheme.nuvio
     Box(
         modifier = modifier
-            .background(
-                color = tokens.colors.surfaceCard,
+            .liquidGlass(
                 shape = tokens.shapes.chip,
+                style = GlassStyle.Control,
+                fallbackColor = tokens.colors.surfaceCard,
             )
             .padding(horizontal = NuvioTokens.Space.s10, vertical = NuvioTokens.Space.s6),
     ) {
@@ -505,10 +528,16 @@ fun NuvioToastHost(
             contentAlignment = Alignment.TopCenter,
         ) {
             Surface(
+                modifier = Modifier.liquidGlass(
+                    shape = RoundedCornerShape(NuvioTokens.Radius.xl),
+                    style = GlassStyle.Bar,
+                    tier = GlassTier.Refractive,
+                    fallbackColor = tokens.colors.surfacePopover,
+                ),
                 shape = RoundedCornerShape(NuvioTokens.Radius.xl),
-                color = tokens.colors.surfacePopover,
+                color = Color.Transparent,
                 tonalElevation = tokens.elevation.raised,
-                shadowElevation = tokens.elevation.overlay,
+                shadowElevation = if (isLiquidGlassActive()) 0.dp else tokens.elevation.overlay,
             ) {
                 Text(
                     text = currentToast.message,

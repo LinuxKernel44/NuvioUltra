@@ -1,5 +1,7 @@
 package com.nuvio.app.features.player
 
+import com.nuvio.app.core.ui.glass.GlassStyle
+import com.nuvio.app.core.ui.glass.liquidGlass
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -571,7 +573,7 @@ internal fun PlayerHeaderIconButton(
         modifier = Modifier
             .size(buttonSize)
             .clip(CircleShape)
-            .background(Color.Black.copy(alpha = 0.35f))
+            .liquidGlass(shape = CircleShape, style = GlassStyle.Control, fallbackColor = Color.Black.copy(alpha = 0.35f))
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
@@ -916,8 +918,7 @@ internal fun LockedPlayerOverlay(
                 modifier = Modifier
                     .size(78.dp)
                     .clip(CircleShape)
-                    .background(Color.Black.copy(alpha = 0.52f))
-                    .border(1.dp, Color.White.copy(alpha = 0.18f), CircleShape)
+                    .liquidGlass(shape = CircleShape, style = GlassStyle.Control, fallbackColor = Color.Black.copy(alpha = 0.52f))
                     .clickable(onClick = onUnlock),
                 contentAlignment = Alignment.Center,
             ) {
@@ -994,8 +995,7 @@ private fun TimePill(
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(Color.Black.copy(alpha = 0.5f))
-            .border(1.dp, Color.White.copy(alpha = 0.2f), RoundedCornerShape(12.dp))
+            .liquidGlass(shape = RoundedCornerShape(12.dp), style = GlassStyle.Control, fallbackColor = Color.Black.copy(alpha = 0.5f))
             .padding(horizontal = 10.dp, vertical = 4.dp),
     ) {
         Text(

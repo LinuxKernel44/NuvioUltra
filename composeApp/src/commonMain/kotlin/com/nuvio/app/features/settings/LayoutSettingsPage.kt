@@ -19,6 +19,10 @@ import nuvio.composeapp.generated.resources.compose_settings_page_streams
 import nuvio.composeapp.generated.resources.compose_settings_root_streams_description
 import nuvio.composeapp.generated.resources.settings_appearance_continue_watching_description
 import nuvio.composeapp.generated.resources.settings_appearance_liquid_glass
+import nuvio.composeapp.generated.resources.settings_liquid_glass_ui_description
+import nuvio.composeapp.generated.resources.settings_liquid_glass_ui_intensity
+import nuvio.composeapp.generated.resources.settings_liquid_glass_ui_section
+import nuvio.composeapp.generated.resources.settings_liquid_glass_ui_title
 import nuvio.composeapp.generated.resources.settings_appearance_liquid_glass_description
 import nuvio.composeapp.generated.resources.settings_appearance_nav_bar_style
 import nuvio.composeapp.generated.resources.settings_appearance_poster_customization_description
@@ -106,6 +110,39 @@ internal fun LazyListScope.layoutSettingsContent(
                     isTablet = isTablet,
                     onClick = onMetaScreenClick,
                 )
+            }
+        }
+    }
+    if (!isIos) {
+        item {
+            val glassLevel by ThemeSettingsRepository.liquidGlassUiLevel.collectAsStateWithLifecycle()
+            SettingsSection(
+                title = stringResource(Res.string.settings_liquid_glass_ui_section),
+                isTablet = isTablet,
+            ) {
+                SettingsGroup(isTablet = isTablet) {
+                    SettingsSwitchRow(
+                        title = stringResource(Res.string.settings_liquid_glass_ui_title),
+                        description = stringResource(Res.string.settings_liquid_glass_ui_description),
+                        checked = glassLevel > 0,
+                        isTablet = isTablet,
+                        onCheckedChange = { enabled ->
+                            ThemeSettingsRepository.setLiquidGlassUiLevel(if (enabled) DEFAULT_LIQUID_GLASS_UI_LEVEL else 0)
+                        },
+                    )
+                    if (glassLevel > 0) {
+                        SettingsGroupDivider(isTablet = isTablet)
+                        SettingsSliderRow(
+                            title = stringResource(Res.string.settings_liquid_glass_ui_intensity),
+                            value = glassLevel,
+                            valueText = { "$it%" },
+                            valueRange = 10..100,
+                            step = 5,
+                            isTablet = isTablet,
+                            onValueChange = ThemeSettingsRepository::setLiquidGlassUiLevel,
+                        )
+                    }
+                }
             }
         }
     }
