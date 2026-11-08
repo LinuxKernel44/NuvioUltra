@@ -66,7 +66,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.nuvio.app"
+        applicationId = "io.github.linuxkernel44.nuvioultra"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = releaseAppVersionCode
